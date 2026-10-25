@@ -1,0 +1,13 @@
+node_modules
+.next
+.next-*
+out
+coverage
+playwright-report
+test-results
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+.vercel
+.DS_Store
+npm-debug.log*

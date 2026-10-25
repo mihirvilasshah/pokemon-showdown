@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg: 246 244 238;
+  --surface: 255 255 255;
+  --surface-2: 238 235 227;
+  --line: 20 24 40;
+  --fg: 18 22 38;
+  --muted: 88 95 118;
+  --accent: 180 83 9;
+  --accent-fg: 255 255 255;
+  --accent2: 3 105 161;
+  --good: 21 128 61;
+  --bad: 185 28 28;
+  --glow: 255 255 255;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: 6 9 20;
+  --surface: 15 21 39;
+  --surface-2: 24 32 58;
+  --line: 255 255 255;
+  --fg: 236 240 250;
+  --muted: 152 162 190;
+  --accent: 245 184 61;
+  --accent-fg: 20 14 2;
+  --accent2: 94 200 255;
+  --good: 74 222 128;
+  --bad: 248 113 113;
+  --glow: 94 200 255;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    min-height: 100dvh;
+  }
+  *:focus-visible {
+    outline: 2px solid rgb(var(--accent2));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-line/10 bg-surface/70 shadow-panel backdrop-blur-xl;
+  }
+  .panel-solid {
+    @apply rounded-2xl border border-line/10 bg-surface shadow-panel;
+  }
+  .eyebrow {
+    @apply font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent;
+  }
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition
+      duration-200 disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn bg-accent text-accent-fg shadow-glow hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border border-line/15 bg-surface-2/50 text-fg hover:bg-surface-2 hover:border-line/30;
+  }
+  .btn-icon {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line/10 bg-surface-2/50 text-fg transition hover:bg-surface-2 hover:border-line/30;
+  }
+  .input {
+    @apply min-h-[44px] w-full rounded-xl border border-line/15 bg-surface-2/50 px-4 text-sm text-fg placeholder:text-muted
+      transition focus:border-accent2/70 focus:outline-none;
+  }
+  .chip {
+    @apply inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-line/15 bg-surface-2/40 px-3 text-xs font-semibold text-fg transition hover:border-line/30;
+  }
+  .chip[aria-pressed="true"] {
+    @apply border-accent bg-accent/15 text-fg;
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--line) / 0.07);
+  border-radius: 0.75rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(var(--line) / 0.1), transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+.hero-bg {
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgb(var(--accent2) / 0.16), transparent 70%),
+    radial-gradient(50% 45% at 90% 20%, rgb(var(--accent) / 0.14), transparent 70%),
+    radial-gradient(70% 60% at 50% 110%, rgb(120 70 255 / 0.12), transparent 70%);
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgb(var(--line) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--line) / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, rgb(var(--fg)) 20%, rgb(var(--accent)) 60%, rgb(var(--accent2)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sr-only-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Perspective arena floor */
+.arena-floor {
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 64px);
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: 50% 100%;
+  mask-image: linear-gradient(to top, black 10%, transparent 95%);
+}
+
+/* Disable decorative motion when the user opts out or the OS requests it. */
+.motion-off *,
+.motion-off *::before,
+.motion-off *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+dialog::backdrop {
+  background: rgb(3 6 14 / 0.7);
+  backdrop-filter: blur(6px);
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgb(var(--line) / 0.2);
+  border-radius: 8px;
+}
